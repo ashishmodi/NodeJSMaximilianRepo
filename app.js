@@ -1,19 +1,21 @@
 const http = require("http")
 const express = require("express")
+const path = require("path")
 const bodyParser = require("body-parser")
 // const routes = require('./routes');
 // const server = http.createServer(routes);
 
 const app = express();
 const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
 
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(adminRoutes);
 
+app.use('/admin', adminRoutes);
+app.use(shopRoutes);
 
+app.use((req, res) => {
+    res.sendFile(path.join(__dirname, 'views', '404.html'));
+})
 
-app.use('/', (req, res, next) => {
-    res.send("<h1>Hello from Express / !</h1>");
-});
-// const server = http.createServer(app);
-app.listen(3500);
+app.listen(3500);   // const server = http.createServer(app);
