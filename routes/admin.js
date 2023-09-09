@@ -9,7 +9,7 @@ router.get('/add-product', (req, res, next) => {
     res.sendFile(path.join(rootDir, 'views', 'add-product.html'));
 });
 
-router.post('/product', (req, res) => {     // app.post
+router.post('/add-product', (req, res) => {     // app.post
     console.log(req.body);      // {title: 'Book'}
     res.redirect('/');
 });
