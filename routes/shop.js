@@ -3,7 +3,7 @@ const path = require('path');
 const router = express.Router();
 const rootDir = require('../util/path');
 const adminData = require('./admin');
-const productsController = require('../controllers/products');
+const shopController = require('../controllers/shop');
 
 /*router.get('/', (req, res, next) => {      // app.use is an alternative
     // res.send("<h1>Hello from Express / !</h1>");
@@ -13,6 +13,11 @@ const productsController = require('../controllers/products');
     console.log(adminData.products);
     res.render('shop', {pageTitle: 'Shop', prods: products, path: '/'});   // use default templating engine
 });*/
-router.get('/', productsController.getProducts);
+router.get('/', shopController.getIndex);
+
+router.get('/products', shopController.getProducts);
+router.get('/cart', shopController.getCart);
+router.get('/orders', shopController.getOrders);
+router.get('/checkout', shopController.getCheckout);
 
 module.exports = router;

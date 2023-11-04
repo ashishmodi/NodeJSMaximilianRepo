@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path');
 const rootDir = require('../util/path');
 
+// [{"title":"The Secret"},{"title":"You can win"},{"title":"7 Habits"},{"title":"21 Bubblegum & candies"},{"title":"My Journey"}]
 const p = path.join(rootDir, 'data', 'products.json');
 
 const getProductsFromFile = (cb) => {    
@@ -18,8 +19,11 @@ const getProductsFromFile = (cb) => {
 
 // const products = [];
 module.exports = class Product {
-    constructor(title) {
+    constructor(title, imageUrl, description, price) {
         this.title = title;
+        this.imageUrl = imageUrl;
+        this.description = description;
+        this.price = price;
     }
     save() {
         getProductsFromFile((products) => {
