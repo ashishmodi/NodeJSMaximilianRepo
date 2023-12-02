@@ -11,6 +11,8 @@ const Product = require('./models/product')
 const User = require('./models/user')
 const Cart = require('./models/cart')
 const CartItem = require('./models/cart-item')
+const Order = require('./models/order')
+const OrderItem = require('./models/order-item')
 
 const app = express();
 // app.set("view engine", "pug");
@@ -52,9 +54,12 @@ User.hasOne(Cart);
 Cart.belongsTo(User);       // optional
 Cart.belongsToMany(Product, { through: CartItem });
 Product.belongsToMany(Cart, { through: CartItem });
+Order.belongsTo(User);
+User.hasMany(Order);
+Order.belongsToMany(Product, { through: OrderItem });
 
-sequelize.sync( {force: true })         // delete existing table and recreates it
-// sequelize.sync()
+// sequelize.sync( {force: true })         // delete existing table and recreates it
+sequelize.sync()
 .then(result => {
     // console.log(result);
     return User.findByPk(1);    
@@ -66,8 +71,11 @@ sequelize.sync( {force: true })         // delete existing table and recreates i
     return Promise.resolve(user);       // we can simply use: return user
 })
 .then(user => {
+    return user.createCart();
+})
+.then(cart => {
     // console.log(user);
     app.listen(3500);   // const server = http.createServer(app);
     console.log("Server started. Listening on port: 3500");
 })
-.catch(err => console.error("Error initializing Sequelize: ", err) );
+.catch(err => console.error("Error occured: ", err) );
